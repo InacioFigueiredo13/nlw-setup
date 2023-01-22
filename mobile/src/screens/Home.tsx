@@ -1,10 +1,9 @@
-import { useState, useEffect } from "react";
+import { useState, useCallback } from "react";
 import { View, Text, ScrollView, Alert } from "react-native";
-import { useNavigation } from "@react-navigation/native";
+import { useNavigation, useFocusEffect } from "@react-navigation/native";
 import dayjs from "dayjs";
 
 import { api } from "../lib/axios";
-
 import { generateDatesFromYearBeginning } from "../utils/generate-dates-from-year-beginning";
 
 import { Header } from "../components/Header";
@@ -35,7 +34,7 @@ export function Home() {
         try {
             setLoading(true);
             const response = await api.get('/summary');
-            
+
             setSummary(response.data)
 
         } catch (error) {
@@ -46,9 +45,9 @@ export function Home() {
         }
     }
 
-    useEffect(() => {
+    useFocusEffect(useCallback(() => {
         fetchData()
-    }, [])
+    }, []))
 
     if (loading) {
         return (
